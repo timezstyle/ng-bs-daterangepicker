@@ -20,8 +20,6 @@ angular.module('ngBootstrap', []).directive('input', function ($compile, $parse)
 			options.maxDate = $attributes.maxDate && moment($attributes.maxDate);
 			options.dateLimit = $attributes.limit && moment.duration.apply(this, $attributes.limit.split(' ').map(function (elem, index) { return index === 0 && parseInt(elem, 10) || elem; }) );
 			options.ranges = $attributes.ranges && $parse($attributes.ranges)($scope);
-			options.locale = $attributes.locale && $parse($attributes.locale)($scope);
-			options.opens = $attributes.opens && $parse($attributes.opens)($scope);
 
 			function format(date) {
 				return date.format(options.format);
@@ -47,7 +45,7 @@ angular.module('ngBootstrap', []).directive('input', function ($compile, $parse)
 
 			$scope.$watch($attributes.ngModel, function (modelValue) {
 				if (!modelValue || (!modelValue.startDate)) {
-					ngModel.$setViewValue({ startDate: moment().startOf('day'), endDate: moment().startOf('day') });
+					ngModel = { startDate: moment().startOf('day'), endDate: moment().startOf('day') };
 					return;
 				}
 				$element.data('daterangepicker').startDate = modelValue.startDate;
@@ -62,7 +60,7 @@ angular.module('ngBootstrap', []).directive('input', function ($compile, $parse)
 					ngModel.$setViewValue({ startDate: start, endDate: end });
 					ngModel.$render();
 				});
-			});			
+			});
 		}
 	};
 });
